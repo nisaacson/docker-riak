@@ -35,13 +35,16 @@ docker build -t riak .
 docker images
 
 # run the container, mapping ports on the host virtual machine to the same ports inside the container
-ID=$(docker run -d -p 8087:8087 -p 8098:809 riak)
+ID=$(docker run -d -p 2222:22 -p 8087:8087 -p 8098:809 riak)
 
 # wait a few seconds and then check the logs on the container, you should see the output from riak starting up.
 docker logs $ID
 
 # connect to the riak service running in the container via riak http interface
 curl "http://localhost:8098"
+
+You can connect to the running container via the mapped ssh port
+ssh -p 2222 localhost
 ```
 
 # Notes
