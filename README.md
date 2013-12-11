@@ -3,7 +3,7 @@ docker-riak
 
 Builds a docker image for Riak.
 
-```docker run -d jplock/riak```
+```docker run -d nisaacson/riak```
 
 # Building
 
@@ -44,7 +44,8 @@ docker logs $ID
 curl "http://localhost:8098"
 
 You can connect to the running container via the mapped ssh port
-ssh -p 2222 localhost
+ssh -p 2222 root@localhost
+# password: basho
 ```
 
 # Notes
