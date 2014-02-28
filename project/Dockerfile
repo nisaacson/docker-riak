@@ -9,10 +9,10 @@ MAINTAINER Noah Isaacson clewfirst+docker@gmail.com
 # Update the APT cache
 RUN sed -i.bak 's/main$/main universe/' /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get upgrade -y
 
 # Install and setup project dependencies
 RUN apt-get install -y curl lsb-release supervisor openssh-server
+RUN apt-get install -y vim
 
 RUN mkdir -p /var/run/sshd
 RUN mkdir -p /var/log/supervisor
@@ -32,8 +32,12 @@ RUN apt-get update
 
 # Install Riak and prepare it to run
 RUN apt-get install -y riak
-RUN sed -i.bak 's/127.0.0.1/0.0.0.0/' /etc/riak/app.config
-RUN echo "sed -i.bak \"s/127.0.0.1/\${RIAK_NODE_NAME}/\" /etc/riak/vm.args" > /etc/default/riak
+ADD ./etc/app.config /etc/riak/app.config
+
+# Add external libraries
+RUN mkdir -p /tmp/js_source
+ADD ./etc/underscore.js /tmp/js_source/underscore.js
+
 
 # switch to leveldb as the riak backend
 RUN sed -i -e s/riak_kv_bitcask_backend/riak_kv_eleveldb_backend/g /etc/riak/app.config
@@ -41,11 +45,6 @@ RUN sed -i -e s/riak_kv_bitcask_backend/riak_kv_eleveldb_backend/g /etc/riak/app
 RUN sed -i -e 0,/"enabled, false"/{s/"enabled, false"/"enabled, true"/} /etc/riak/app.config
 
 RUN echo "ulimit -n 4096" >> /etc/default/riak
-
-# Hack for initctl
-# See: https://github.com/dotcloud/docker/issues/1024
-RUN dpkg-divert --local --rename --add /sbin/initctl
-RUN ln -s /bin/true /sbin/initctl
 
 ENV RIAK_NODE_NAME "127.0.0.1"
 # Expose Protocol Buffers and HTTP interfaces
