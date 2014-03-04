@@ -46,4 +46,4 @@ ssh -p 2222 root@localhost
 
 To use search, you must first enable it on a bucket before adding any data. [How to enable Search](http://docs.basho.com/riak/1.4.0/cookbooks/Riak-Search---Indexing-and-Querying-Riak-KV-Data/)
 
-Underscore.js is available by default for use in map-reduce javascript functions.
+[underscore.js](http://underscorejs.org) is available by default for use in map-reduce javascript functions.
