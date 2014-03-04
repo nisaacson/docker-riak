@@ -45,3 +45,5 @@ ssh -p 2222 root@localhost
 * Search: The riak container is configured with [search enabled](http://docs.basho.com/riak/latest/ops/advanced/configs/search/)
 
 To use search, you must first enable it on a bucket before adding any data. [How to enable Search](http://docs.basho.com/riak/1.4.0/cookbooks/Riak-Search---Indexing-and-Querying-Riak-KV-Data/)
+
+Underscore.js is available by default for use in map-reduce javascript functions.
