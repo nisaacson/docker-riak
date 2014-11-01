@@ -12,7 +12,7 @@ RUN apt-get update
 
 # Install and setup project dependencies
 RUN apt-get install -y curl lsb-release supervisor openssh-server
-RUN apt-get install -y vim
+RUN apt-get install -y vim apt-transport-https
 
 RUN mkdir -p /var/run/sshd
 RUN mkdir -p /var/log/supervisor
@@ -27,7 +27,7 @@ RUN echo 'root:basho' | chpasswd
 ADD basho.apt.key /tmp/basho.apt.key
 RUN apt-key add /tmp/basho.apt.key
 RUN rm /tmp/basho.apt.key
-RUN echo "deb http://apt.basho.com $(lsb_release -cs) main" > /etc/apt/sources.list.d/basho.list
+RUN echo "deb https://packagecloud.io/basho/riak/ubuntu/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/basho.list
 RUN apt-get update
 
 # Install Riak and prepare it to run
