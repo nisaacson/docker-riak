@@ -23,6 +23,9 @@ ADD ./etc/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN echo 'root:basho' | chpasswd
 
+# Permit root login and disable PAM and privilege separation configuration
+RUN sed -i "s/UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_config && sed -i "s/UsePAM.*/UsePAM no/g" /etc/ssh/sshd_config && sed -i "s/PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
+
 # Add Basho's APT repository
 ADD basho.apt.key /tmp/basho.apt.key
 RUN apt-key add /tmp/basho.apt.key
